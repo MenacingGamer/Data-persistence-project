@@ -1,14 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
+    public UIManager uiManager;
     public static GameManager Instance;
+    public TMP_InputField gamerName;
+    public  string inputName;
+    public int highScore;
+   
 
 
     private void Awake()
     {
+        
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -19,15 +28,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
+ 
+  public void NewGame()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        inputName = gamerName.text;      
+        uiManager.WelcomeUser();
     }
 }
