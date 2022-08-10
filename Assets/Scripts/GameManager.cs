@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 {
     public UIManager uiManager;
     public static GameManager Instance;
-    public TMP_InputField gamerName;
     public  string inputName;
     public int highScore;
    
@@ -26,12 +25,12 @@ public class GameManager : MonoBehaviour
       
         Instance = this;
         DontDestroyOnLoad(gameObject);
+       
     }
 
  
-  public void NewGame()
-    {
-        inputName = gamerName.text;      
-        uiManager.WelcomeUser();
-    }
+ 
+
+   
+
 }

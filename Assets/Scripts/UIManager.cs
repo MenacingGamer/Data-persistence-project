@@ -10,17 +10,22 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject playGame;
+    public TMP_Text welcomeText;
+    public TMP_Text highScoreText;
+    public GameObject playGameButton;
+    public GameObject backButton;
     public Button[] buttons;
     public GameObject gamerNameInput;
-    public TMP_Text welcomeText;
+    public TMP_InputField gamerName;
 
 
     // Start is called before the first frame update
     void Start()
     {
       
-        playGame.SetActive(false);
+        backButton.SetActive(false);
+        highScoreText.enabled = false;
+        playGameButton.SetActive(false);
         welcomeText.enabled = false;
         gamerNameInput.SetActive(false);
     }
@@ -44,13 +49,50 @@ public class UIManager : MonoBehaviour
         Application.Quit();  
 #endif
     }
+    public void NewGame()
+    {
+        GameManager.Instance.inputName = gamerName.text;
+        WelcomeUser();
+        GameManager.Instance.highScore = 0;
+    }
+
+    public void NewUser()
+    {
+        GameManager.Instance.inputName = "";
+        GameManager.Instance.highScore = 0;
+        gamerNameInput.SetActive(true);
+        TurnButtonsOff();
+        backButton.SetActive(true);
+        
+        
+    }
+
+    public void BackButton()
+    {
+       
+        gamerNameInput.SetActive(false);
+        welcomeText.enabled = false;
+        highScoreText.enabled = false;
+        playGameButton.SetActive(false);
+        backButton.SetActive(false);
+        TurnButtonsOn();
+    }
 
     public void TurnButtonsOff()
     {
         foreach (Button obj in buttons)
         {
             obj.GetComponent<Button>().gameObject.SetActive(false);
-            gamerNameInput.SetActive(true);
+            
+        }
+    }
+
+    public void TurnButtonsOn()
+    {
+        foreach (Button obj in buttons)
+        {
+            obj.GetComponent<Button>().gameObject.SetActive(true);
+           
         }
     }
 
@@ -59,6 +101,21 @@ public class UIManager : MonoBehaviour
         
         welcomeText.enabled = true;
         welcomeText.text = "Welcome: " + GameManager.Instance.inputName;
-        playGame.SetActive(true);
+        playGameButton.SetActive(true);
+    }
+
+    public void LoadUser()
+    {
+        TurnButtonsOff();
+        var s = PlayerPrefs.GetInt("HighScore", GameManager.Instance.highScore);
+        var n =  PlayerPrefs.GetString("PlayerName", GameManager.Instance.inputName);
+        welcomeText.enabled = true;
+        welcomeText.text = "Welcome: " + n;
+        highScoreText.enabled = true;
+        highScoreText.text = "High Score: " + s;
+        playGameButton.SetActive(true);
+        backButton.SetActive(true);
+        GameManager.Instance.highScore = s;
+        GameManager.Instance.inputName = n;
     }
 }
